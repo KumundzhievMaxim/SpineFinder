@@ -100,6 +100,7 @@ def generate_samples(dataset_dir, sample_dir,
         print(str(cnt + 1) + " / " + str(len(paths)))
 
 
+
 generate_samples(dataset_dir=sys.argv[1],
                  sample_dir=sys.argv[2],
                  spacing=(1.0, 1.0, 1.0),
