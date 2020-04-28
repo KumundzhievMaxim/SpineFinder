@@ -1,8 +1,16 @@
 import keras_metrics as km
-import keras.metrics as metrics
-from keras import optimizers
-from keras.models import Model
-from keras.layers import Conv3D, BatchNormalization, Activation, Input, MaxPooling3D, concatenate, UpSampling3D
+
+#import keras.metrics as metrics
+import tensorflow.keras.metrics as metrics
+
+#from keras import optimizers
+#from keras.models import Model
+from tensorflow.keras import optimizers
+from tensorflow.keras.models import Model
+
+#from keras.layers import Conv3D, BatchNormalization, Activation, Input, MaxPooling3D, concatenate, UpSampling3D
+from tensorflow.keras.layers import Conv3D, BatchNormalization, Activation, Input, MaxPooling3D, concatenate, UpSampling3D
+
 from losses_and_metrics.keras_weighted_categorical_crossentropy import weighted_categorical_crossentropy
 from losses_and_metrics.dsc import dice_coef_label
 
@@ -10,6 +18,7 @@ from losses_and_metrics.dsc import dice_coef_label
 def detection_unet(filters, kernel_size, weights, learning_rate):
 
     # Input
+    #main_input = Input(shape=(None, None, None, 1), dtype='float32')
     main_input = Input(shape=(None, None, None, 1))
 
     # 64 x 64 x 80

@@ -1,7 +1,9 @@
-from keras import optimizers
-from keras import backend as K
-from keras.models import Model
-from keras.layers import Input, Conv2D, UpSampling2D, MaxPooling2D, concatenate, Activation, BatchNormalization
+from tensorflow.keras.backend import minimum, abs, sum, cast, equal, round
+
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Input, Conv2D, UpSampling2D, MaxPooling2D, concatenate, Activation, BatchNormalization
+
+from tensorflow.keras import optimizers
 
 
 def identification_unet(kernel_size, filters, learning_rate):
@@ -105,12 +107,12 @@ def identification_unet(kernel_size, filters, learning_rate):
 
 
 def ignore_background_loss(y_true, y_pred):
-    # y_true = K.maximum(y_true, K.epsilon())
-    dont_cares = K.minimum(1.0, y_true)
-    return K.sum(K.abs(y_pred - y_true) * dont_cares) / K.sum(dont_cares)
+    # y_true = maximum(y_true, epsilon())
+    dont_cares = minimum(1.0, y_true)
+    return sum(abs(y_pred - y_true) * dont_cares) / sum(dont_cares)
 
 
 def vertebrae_classification_rate(y_true, y_pred):
     # y_true = K.maximum(y_true, K.epsilon())
-    dont_cares = K.minimum(1.0, y_true)
-    return K.sum(K.cast(K.equal(K.round(y_pred), y_true), 'float32') * dont_cares) / K.sum(dont_cares)
+    dont_cares = minimum(1.0, y_true)
+    return sum(cast(equal(round(y_pred), y_true), 'float32') * dont_cares) / sum(dont_cares)

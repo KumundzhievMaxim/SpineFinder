@@ -1,11 +1,10 @@
 # https://stanford.edu/~shervine/blog/keras-how-to-generate-data-on-the-fly
 
 import numpy as np
-import keras
+import tensorflow.keras as keras
 
 
 class DataGenerator(keras.utils.Sequence):
-
     def __init__(self, ids_in_set, labels, samples_dir, batch_size=32, three_d=True, n_channels=1, categorise=True,
                  n_classes=1, shuffle=True):
 
@@ -22,7 +21,6 @@ class DataGenerator(keras.utils.Sequence):
         np.random.seed(1)
 
     def __len__(self):
-
         return int(np.floor(len(self.ids_in_set) / self.batch_size))
 
     def __getitem__(self, index):
@@ -54,15 +52,18 @@ class DataGenerator(keras.utils.Sequence):
         'Generates data containing batch_size samples' # X : (n_samples, *dim, n_channels)
         # Find the size of this batch
         first_id = ids_in_set_temp[0]
-        first_sample = np.load(self.samples_dir + '/' + first_id + '-sample.npy')
+        #first_sample = np.load(self.samples_dir + '/' + first_id + '-sample.npy')
+        first_sample = np.load(self.samples_dir + '/' + first_id + '-sample.npy').astype(float)
 
         # Initialization
         if self.three_d:
             X = np.empty((self.batch_size, *first_sample.shape, self.n_channels))
-            y = np.empty((self.batch_size, *first_sample.shape, self.n_classes), dtype=int)
+            #y = np.empty((self.batch_size, *first_sample.shape, self.n_classes), dtype=int)
+            y = np.empty((self.batch_size, *first_sample.shape, self.n_classes), dtype=float)
         else:
             X = np.empty((self.batch_size, *first_sample.shape[-2:], self.n_channels))
-            y = np.empty((self.batch_size, *first_sample.shape[-2:], self.n_classes), dtype=int)
+            #y = np.empty((self.batch_size, *first_sample.shape[-2:], self.n_classes), dtype=int)
+            y = np.empty((self.batch_size, *first_sample.shape[-2:], self.n_classes), dtype=float)
 
         # Generate data
         for i, ID in enumerate(ids_in_set_temp):

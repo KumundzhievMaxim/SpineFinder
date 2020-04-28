@@ -1,6 +1,7 @@
 from learning_functions.create_partition import create_partition_and_labels
 from learning_functions.data_generator import DataGenerator
-from keras.callbacks import ModelCheckpoint, TensorBoard
+#from keras.callbacks import ModelCheckpoint, TensorBoard
+from tensorflow.keras.callbacks import ModelCheckpoint, TensorBoard
 import datetime
 import os
 import inspect
@@ -52,7 +53,7 @@ def perform_learning(training_sample_dir, val_sample_dir,
     model.fit_generator(generator=training_generator,
                         validation_data=validation_generator,
                         use_multiprocessing=True,
-                        workers=6,
+                        workers=-1,
                         epochs=epochs,
                         callbacks=[checkpoint, tensorboard])
 
